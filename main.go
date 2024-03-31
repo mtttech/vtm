@@ -2,25 +2,11 @@ package main
 
 import (
 	"fmt"
+	"Vtm/actor"
 	//"Vtm/attributes"
 	"Vtm/stdin"
 )
 
-type Vampire struct {
-	name, gender, clan string
-}
-
-func (v *Vampire) GetMyName() string {
-	return v.name
-}
-
-func (v *Vampire) GetMyGender() string {
-	return v.gender
-}
-
-func (v *Vampire) GetMyClan() string {
-	return v.clan
-}
 
 func Delete(arr []string, needle string) []string {
 	var index_begin, index_end int
@@ -66,6 +52,6 @@ func main() {
     	fmt.Println(attributes[i])
 	}
 
-	v := Vampire{name: name, gender: gender, clan: clan}
+	v := actor.Vampire{Name: name, Gender: gender, Clan: clan}
 	fmt.Printf("%s %s %s.\n", v.GetMyName(), v.GetMyGender(), v.GetMyClan())
 }
