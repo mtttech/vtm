@@ -28,7 +28,7 @@ func Delete(arr []string, needle string) []string {
     	if value == needle {
 			index_begin = index
 			index_end = index + 1
-    	}
+		}
 	}
   	// Nothing was found, return original array
   	if index_begin == 0 && index_end == 0 {
