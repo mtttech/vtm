@@ -13,7 +13,7 @@ func IsSelection(option string, options []string) bool {
 
 func Input(message string) string {
 	var stdin string
-	fmt.Println(message)
+	fmt.Println(">>", message)
 	fmt.Scan(&stdin)
 	return stdin
 }
