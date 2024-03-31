@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 
 	"Vtm/actor"
 	//"Vtm/attributes"
@@ -25,11 +26,8 @@ func Delete(arr []string, needle string) []string {
 }
 
 func main() {
-	t := []string{"A", "One", "B", "Two", "C"}
-	fmt.Println(Delete(t, "A"))
-
-	attributes := []string{"Charisma", "Composure", "Dexterity", "Intelligence", "Manipulation", "Resolve", "Stamina", "Strength", "Wits"}
-	//attribute_dots := []int{4, 3, 3, 3, 2, 2, 2, 2, 1}
+	attributes_names := []string{"Charisma", "Composure", "Dexterity", "Intelligence", "Manipulation", "Resolve", "Stamina", "Strength", "Wits"}
+	attribute_dots := []string{"4", "3", "3", "3", "2", "2", "2", "2", "1"}
 	genders := []string{"Female", "Male"}
 	clans := []string{"Brujah", "Gangrel", "Malkavian", "Nosferatu", "Thin-Blood", "Toreador", "Tremere", "Ventrue"}
 
@@ -45,10 +43,20 @@ func main() {
 		clan = stdin.Input(fmt.Sprintf("What clan do you belong to? %s", clans))
 	}
 
-	for i := range 9 {
-		fmt.Println(attributes[i])
+	attributes := make(map[string]int)
+	for _, attribute := range attributes_names {
+		var value string
+		for !stdin.IsSelection(value, attribute_dots) {
+			value = stdin.Input(fmt.Sprintf("Apply how many dots to your %s. %s", attribute, attribute_dots))
+		}
+		value_to_int, e := strconv.Atoi(value)
+		if e == nil {
+			attribute_dots = Delete(attribute_dots, value)
+			attributes[attribute] = value_to_int
+		}
 	}
 
-	v := actor.Vampire{Name: name, Gender: gender, Clan: clan}
+	v := actor.Vampire{Name: name, Gender: gender, Clan: clan, Attributes: attributes}
 	fmt.Printf("You are %s, a %s %s.\n", v.GetMyName(), v.GetMyGender(), v.GetMyClan())
+	fmt.Println(v.GetMyAttributes())
 }
