@@ -1,3 +1,3 @@
-module github.com/mtttech/Vtm
+module Vtm
 
 go 1.22.1

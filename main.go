@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/mtttech/Vtm/actor"
-	"github.com/mtttech/Vtm/stdin"
+	"Vtm/actor"
+	"Vtm/stdin"
 )
 
 var attributes_names, attribute_dots, clans, genders []string
@@ -15,7 +15,6 @@ func init() {
 	attribute_dots = []string{"4", "3", "3", "3", "2", "2", "2", "2", "1"}
 	clans = []string{"Brujah", "Gangrel", "Malkavian", "Nosferatu", "Thin-Blood", "Toreador", "Tremere", "Ventrue"}
 	genders = []string{"Female", "Male"}
-
 }
 
 func main() {
@@ -44,9 +43,28 @@ func main() {
 		}
 	}
 
-	v := actor.Vampire{Name: name, Gender: gender, Clan: clan, Attributes: attributes}
-	fmt.Printf("You are %s, a %s %s.\n", v.GetMyName(), v.GetMyGender(), v.GetMyClan())
-	fmt.Println(v.GetMyAttributes())
+	a := actor.Attributes{
+		Charisma:     attributes["Charisma"],
+		Composure:    attributes["Composure"],
+		Dexterity:    attributes["Dexterity"],
+		Intelligence: attributes["Intelligence"],
+		Manipulation: attributes["Manipulation"],
+		Resolve:      attributes["Resolve"],
+		Stamina:      attributes["Stamina"],
+		Strength:     attributes["Strength"],
+		Wits:         attributes["Wits"]}
+
+	b := actor.Background{Name: name, Gender: gender, Clan: clan}
+	fmt.Printf("You are %s, a %s %s.\n", b.GetMyName(), b.GetMyGender(), b.GetMyClan())
+	fmt.Printf("Charisma - %d\n", a.GetMyCharisma())
+	fmt.Printf("Composure - %d\n", a.GetMyComposure())
+	fmt.Printf("Dexterity - %d\n", a.GetMyDexterity())
+	fmt.Printf("Intelligence - %d\n", a.GetMyIntelligence())
+	fmt.Printf("Manipulation - %d\n", a.GetMyManipulation())
+	fmt.Printf("Resolve - %d\n", a.GetMyResolve())
+	fmt.Printf("Stamina - %d\n", a.GetMyStamina())
+	fmt.Printf("Strength - %d\n", a.GetMyStrength())
+	fmt.Printf("Wits - %d\n", a.GetMyWits())
 }
 
 func Delete(arr []string, needle string) []string {
