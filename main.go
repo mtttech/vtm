@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"Vtm/actor"
-	//"Vtm/attributes"
 	"Vtm/stdin"
 )
 
@@ -25,12 +24,17 @@ func Delete(arr []string, needle string) []string {
 	return append(arr[:index_begin], arr[index_end:]...)
 }
 
-func main() {
-	attributes_names := []string{"Charisma", "Composure", "Dexterity", "Intelligence", "Manipulation", "Resolve", "Stamina", "Strength", "Wits"}
-	attribute_dots := []string{"4", "3", "3", "3", "2", "2", "2", "2", "1"}
-	genders := []string{"Female", "Male"}
-	clans := []string{"Brujah", "Gangrel", "Malkavian", "Nosferatu", "Thin-Blood", "Toreador", "Tremere", "Ventrue"}
+var attributes_names, attribute_dots, clans, genders []string
 
+func init() {
+	attributes_names = []string{"Charisma", "Composure", "Dexterity", "Intelligence", "Manipulation", "Resolve", "Stamina", "Strength", "Wits"}
+	attribute_dots = []string{"4", "3", "3", "3", "2", "2", "2", "2", "1"}
+	clans = []string{"Brujah", "Gangrel", "Malkavian", "Nosferatu", "Thin-Blood", "Toreador", "Tremere", "Ventrue"}
+	genders = []string{"Female", "Male"}
+
+}
+
+func main() {
 	name := stdin.Input("What is your name, vampire?")
 
 	var gender string
