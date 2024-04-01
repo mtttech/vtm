@@ -8,22 +8,6 @@ import (
 	"Vtm/stdin"
 )
 
-func Delete(arr []string, needle string) []string {
-	var index_begin, index_end int
-	for index, value := range arr {
-		if value == needle {
-			index_begin = index
-			index_end = index + 1
-		}
-	}
-	// Value needle wasn't found, return original array.
-	if index_begin == 0 && index_end == 0 {
-		return arr
-	}
-	// Return array without needle value.
-	return append(arr[:index_begin], arr[index_end:]...)
-}
-
 var attributes_names, attribute_dots, clans, genders []string
 
 func init() {
@@ -63,4 +47,20 @@ func main() {
 	v := actor.Vampire{Name: name, Gender: gender, Clan: clan, Attributes: attributes}
 	fmt.Printf("You are %s, a %s %s.\n", v.GetMyName(), v.GetMyGender(), v.GetMyClan())
 	fmt.Println(v.GetMyAttributes())
+}
+
+func Delete(arr []string, needle string) []string {
+	var index_begin, index_end int
+	for index, value := range arr {
+		if value == needle {
+			index_begin = index
+			index_end = index + 1
+		}
+	}
+	// Value needle wasn't found, return original array.
+	if index_begin == 0 && index_end == 0 {
+		return arr
+	}
+	// Return array without needle value.
+	return append(arr[:index_begin], arr[index_end:]...)
 }
