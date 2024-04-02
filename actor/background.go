@@ -1,7 +1,7 @@
 package actor
 
 type Background struct {
-	Ambition, Chronicle, Clan, Concept, Desire, Gender, Name, Sire string
+	Ambition, Chronicle, Clan, Concept, Desire, Gender, Name, PredatorType, Sire string
 }
 
 func (b *Background) GetMyAmbition() string {
@@ -30,6 +30,10 @@ func (b *Background) GetMyGender() string {
 
 func (b *Background) GetMyName() string {
 	return b.Name
+}
+
+func (b *Background) GetMyPredatorType() string {
+	return b.PredatorType
 }
 
 func (b *Background) GetMySire() string {

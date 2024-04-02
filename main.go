@@ -8,7 +8,7 @@ import (
 	"vtm/stdin"
 )
 
-var attributes_names, attribute_dots, clans, genders []string
+var attributes_names, attribute_dots, clans, genders, predator_types []string
 
 func init() {
 	attributes_names = []string{
@@ -34,12 +34,28 @@ func init() {
 		"Ventrue",
 	}
 	genders = []string{"Female", "Male"}
+	predator_types = []string{
+		"Alleycat",
+		"Bagger",
+		"Cleaver",
+		"Consensualist",
+		"Extortionist",
+		"Farmer",
+		"Graverobber",
+		"Leech",
+		"Osiris",
+		"Roadside Killer",
+		"Sandman",
+		"Scene Queen",
+		"Siren",
+	}
 }
 
 func main() {
 	name := stdin.Prompt("What is your name, vampire?", []string{})
 	gender := stdin.Prompt("What is your gender?", genders)
 	clan := stdin.Prompt("What clan do you belong to?", clans)
+	predator_type := stdin.Prompt("What is your predator type?", predator_types)
 
 	attributes := make(map[string]int)
 	for _, attribute := range attributes_names {
@@ -61,9 +77,10 @@ func main() {
 		Stamina:      attributes["Stamina"],
 		Strength:     attributes["Strength"],
 		Wits:         attributes["Wits"]}
-	b := actor.Background{Name: name, Gender: gender, Clan: clan}
+	b := actor.Background{Name: name, Gender: gender, Clan: clan, PredatorType: predator_type}
 
 	fmt.Printf("You are %s, a %s %s.\n", b.GetMyName(), b.GetMyGender(), b.GetMyClan())
+	fmt.Printf("Your predator type is %s.\n", b.GetMyPredatorType())
 	fmt.Printf("Charisma - %d\n", a.GetMyCharisma())
 	fmt.Printf("Composure - %d\n", a.GetMyComposure())
 	fmt.Printf("Dexterity - %d\n", a.GetMyDexterity())
