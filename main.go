@@ -11,33 +11,41 @@ import (
 var attributes_names, attribute_dots, clans, genders []string
 
 func init() {
-	attributes_names = []string{"Charisma", "Composure", "Dexterity", "Intelligence", "Manipulation", "Resolve", "Stamina", "Strength", "Wits"}
+	attributes_names = []string{
+		"Charisma",
+		"Composure",
+		"Dexterity",
+		"Intelligence",
+		"Manipulation",
+		"Resolve",
+		"Stamina",
+		"Strength",
+		"Wits",
+	}
 	attribute_dots = []string{"4", "3", "3", "3", "2", "2", "2", "2", "1"}
-	clans = []string{"Brujah", "Gangrel", "Malkavian", "Nosferatu", "Thin-Blood", "Toreador", "Tremere", "Ventrue"}
+	clans = []string{
+		"Brujah",
+		"Gangrel",
+		"Malkavian",
+		"Nosferatu",
+		"Thin-Blood",
+		"Toreador",
+		"Tremere",
+		"Ventrue",
+	}
 	genders = []string{"Female", "Male"}
 }
 
 func main() {
-	name := stdin.Input("What is your name, vampire?")
-
-	var gender string
-	for !stdin.IsSelection(gender, genders) {
-		gender = stdin.Input(fmt.Sprintf("What is your gender? %s", genders))
-	}
-
-	var clan string
-	for !stdin.IsSelection(clan, clans) {
-		clan = stdin.Input(fmt.Sprintf("What clan do you belong to? %s", clans))
-	}
+	name := stdin.Prompt("What is your name, vampire?", []string{})
+	gender := stdin.Prompt("What is your gender?", genders)
+	clan := stdin.Prompt("What clan do you belong to?", clans)
 
 	attributes := make(map[string]int)
 	for _, attribute := range attributes_names {
-		var value string
-		for !stdin.IsSelection(value, attribute_dots) {
-			value = stdin.Input(fmt.Sprintf("Apply how many dots to your %s. %s", attribute, attribute_dots))
-		}
-		value_to_int, e := strconv.Atoi(value)
-		if e == nil {
+		value := stdin.Prompt(fmt.Sprintf("Apply how many dots to your %s?", attribute), attribute_dots)
+		value_to_int, err := strconv.Atoi(value)
+		if err == nil {
 			attribute_dots = Delete(attribute_dots, value)
 			attributes[attribute] = value_to_int
 		}
@@ -53,8 +61,8 @@ func main() {
 		Stamina:      attributes["Stamina"],
 		Strength:     attributes["Strength"],
 		Wits:         attributes["Wits"]}
-
 	b := actor.Background{Name: name, Gender: gender, Clan: clan}
+
 	fmt.Printf("You are %s, a %s %s.\n", b.GetMyName(), b.GetMyGender(), b.GetMyClan())
 	fmt.Printf("Charisma - %d\n", a.GetMyCharisma())
 	fmt.Printf("Composure - %d\n", a.GetMyComposure())
