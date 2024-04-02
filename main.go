@@ -56,10 +56,11 @@ func main() {
 	gender := stdin.Prompt("What is your gender?", genders)
 	clan := stdin.Prompt("What clan do you belong to?", clans)
 	predator_type := stdin.Prompt("What is your predator type?", predator_types)
+	b := actor.Background{Name: name, Gender: gender, Clan: clan, PredatorType: predator_type}
 
 	attributes := make(map[string]int)
 	for _, attribute := range attributes_names {
-		value := stdin.Prompt(fmt.Sprintf("Apply how many dots to your %s?", attribute), attribute_dots)
+		value := stdin.Prompt(fmt.Sprintf("Apply how many dots to your %s attribute?", attribute), attribute_dots)
 		value_to_int, err := strconv.Atoi(value)
 		if err == nil {
 			attribute_dots = Delete(attribute_dots, value)
@@ -77,7 +78,6 @@ func main() {
 		Stamina:      attributes["Stamina"],
 		Strength:     attributes["Strength"],
 		Wits:         attributes["Wits"]}
-	b := actor.Background{Name: name, Gender: gender, Clan: clan, PredatorType: predator_type}
 
 	fmt.Printf("You are %s, a %s %s.\n", b.GetMyName(), b.GetMyGender(), b.GetMyClan())
 	fmt.Printf("Your predator type is %s.\n", b.GetMyPredatorType())
