@@ -1,3 +1,3 @@
-module Vtm
+module vtm
 
 go 1.22.1

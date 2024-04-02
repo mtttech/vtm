@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"Vtm/actor"
-	"Vtm/stdin"
+	"vtm/actor"
+	"vtm/stdin"
 )
 
 var attributes_names, attribute_dots, clans, genders []string
