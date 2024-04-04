@@ -64,11 +64,9 @@ func main() {
 	attributes := make(map[string]int)
 	for _, attribute := range attributes_names {
 		value := stdin.Prompt(fmt.Sprintf("Apply how many dots to your %s attribute?", attribute), attribute_dots)
-		value_to_int, err := strconv.Atoi(value)
-		if err == nil {
-			attribute_dots = Delete(attribute_dots, value)
-			attributes[attribute] = value_to_int
-		}
+		value_to_int, _ := strconv.Atoi(value)
+		attribute_dots = Delete(attribute_dots, value)
+		attributes[attribute] = value_to_int
 	}
 
 	a := actor.Attributes{
