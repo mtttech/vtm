@@ -28,6 +28,9 @@ func Prompt(message string, options []string) string {
 		}
 
 		response, err := stdin.ReadString('\n')
+		if response == "\n" {
+			continue
+		}
 		if err != nil {
 			panic(err)
 		}
