@@ -8,7 +8,7 @@ import (
 	"vtm/stdin"
 )
 
-var attributes_names, attribute_dots, clans, genders, generations, predator_types []string
+var attributes_names, attribute_dots, clans, genders, generations, predator_types, skills []string
 
 func init() {
 	attributes_names = []string{
@@ -50,16 +50,56 @@ func init() {
 		"Scene Queen",
 		"Siren",
 	}
+	skills = []string{
+		"Academics",
+		"Animal Ken",
+		"Athletics",
+		"Awareness",
+		"Brawl",
+		"Craft",
+		"Drive",
+		"Etiquette",
+		"Finance",
+		"Firearms",
+		"Insight",
+		"Intimidation",
+		"Investigation",
+		"Larceny",
+		"Leadership",
+		"Medicine",
+		"Melee",
+		"Occult",
+		"Performance",
+		"Persuasion",
+		"Politics",
+		"Science",
+		"Stealth",
+		"Streetwise",
+		"Subterfuge",
+		"Survival",
+		"Technology",
+	}
 }
 
 func main() {
-	gender := stdin.Prompt("What is your gender?", genders)
 	name := stdin.Prompt("What is your name, vampire?", []string{})
+	gender := stdin.Prompt("What is your gender?", genders)
 	clan := stdin.Prompt("What clan do you belong to?", clans)
-	generation := stdin.Prompt("What is your generation?", generations)
-	predator_type := stdin.Prompt("What is your predator type?", predator_types)
 	sire := stdin.Prompt("Who is your sire?", []string{})
-	b := actor.Background{Clan: clan, Gender: gender, Generation: generation, Name: name, PredatorType: predator_type, Sire: sire}
+	generation := stdin.Prompt("What is your generation?", generations)
+	ambition := stdin.Prompt("What is your ambition?", []string{})
+	desire := stdin.Prompt("What is your desire?", []string{})
+	predator_type := stdin.Prompt("What is your predator type?", predator_types)
+	b := actor.Background{
+		Ambition:     ambition,
+		Clan:         clan,
+		Desire:       desire,
+		Gender:       gender,
+		Generation:   generation,
+		Name:         name,
+		PredatorType: predator_type,
+		Sire:         sire,
+	}
 
 	attributes := make(map[string]int)
 	for _, attribute := range attributes_names {
@@ -78,10 +118,14 @@ func main() {
 		Resolve:      attributes["Resolve"],
 		Stamina:      attributes["Stamina"],
 		Strength:     attributes["Strength"],
-		Wits:         attributes["Wits"]}
+		Wits:         attributes["Wits"],
+	}
 
-	fmt.Printf("You are %s, a %s %s.\n", b.GetMyName(), b.GetMyGender(), b.GetMyClan())
+	generation, title := b.GetMyGeneration()
+	fmt.Printf("You are %s, a %s %s of the %s (%s) generation.\n", b.GetMyName(), b.GetMyGender(), b.GetMyClan(), generation, title)
 	fmt.Printf("Your sire was %s.\n", b.GetMySire())
+	fmt.Printf("Your ambition is: %s.\n", b.GetMyAmbition())
+	fmt.Printf("Your desire is: %s.\n", b.GetMyDesire())
 	fmt.Printf("Your predator type is %s.\n", b.GetMyPredatorType())
 	fmt.Printf("Charisma - %d\n", a.GetMyCharisma())
 	fmt.Printf("Composure - %d\n", a.GetMyComposure())

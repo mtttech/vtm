@@ -1,8 +1,11 @@
 package stdin
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strconv"
+	"strings"
 )
 
 func IsSelection(option string, options []string) bool {
@@ -15,17 +18,22 @@ func IsSelection(option string, options []string) bool {
 }
 
 func Prompt(message string, options []string) string {
-	var response string
 	for {
+		stdin := bufio.NewReader(os.Stdin)
 		fmt.Println(">>", message)
 		if len(options) > 0 {
 			for index, option := range options {
 				fmt.Printf("%d.) %s\n", index+1, option)
 			}
 		}
-		if _, err := fmt.Scan(&response); err != nil {
+
+		response, err := stdin.ReadString('\n')
+		if err != nil {
 			panic(err)
 		}
+
+		response = strings.TrimSpace(response)
+
 		if len(options) > 0 {
 			index_to_int, _ := strconv.Atoi(response)
 			if index_to_int >= 1 && index_to_int <= len(options) {
