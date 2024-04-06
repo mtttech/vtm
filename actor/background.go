@@ -1,7 +1,16 @@
 package actor
 
 type Background struct {
-	Ambition, Chronicle, Clan, Concept, Desire, Gender, Generation, Name, PredatorType, Sire string
+	Ambition     string
+	Chronicle    string
+	Clan         string
+	Concept      string
+	Desire       string
+	Gender       string
+	Generation   string
+	Name         string
+	PredatorType string
+	Sire         string
 }
 
 func (b *Background) GetMyAmbition() string {

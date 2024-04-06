@@ -8,7 +8,12 @@ import (
 	"vtm/stdin"
 )
 
-var attributes_names, attribute_dots, clans, genders, generations, predator_types, skills []string
+var attributes_names, attribute_dots []string
+var clans []string
+var genders []string
+var generations []string
+var predator_types []string
+var skills, skills_balanced, skills_jack, skills_specialist []string
 
 func init() {
 	attributes_names = []string{
@@ -79,6 +84,12 @@ func init() {
 		"Survival",
 		"Technology",
 	}
+	// 19 skills
+	skills_jack = []string{"3", "2", "2", "2", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"}
+	// 15 skills
+	skills_balanced = []string{"3", "3", "3", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1"}
+	// 10 skills
+	skills_specialist = []string{"4", "3", "3", "3", "2", "2", "2", "1", "1", "1"}
 }
 
 func main() {

@@ -1,7 +1,15 @@
 package actor
 
 type Attributes struct {
-	Charisma, Composure, Dexterity, Intelligence, Manipulation, Resolve, Stamina, Strength, Wits int
+	Charisma     int
+	Composure    int
+	Dexterity    int
+	Intelligence int
+	Manipulation int
+	Resolve      int
+	Stamina      int
+	Strength     int
+	Wits         int
 }
 
 func (a *Attributes) GetMyCharisma() int {
