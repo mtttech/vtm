@@ -139,17 +139,17 @@ func main() {
 }
 
 func Delete(arr []string, needle string) []string {
-	var index_begin, index_end int
-	for index, value := range arr {
+	var idx_begin, idx_end int
+	for idx, value := range arr {
 		if value == needle {
-			index_begin = index
-			index_end = index + 1
+			idx_begin = idx
+			idx_end = idx + 1
 		}
 	}
 	// Value needle wasn't found, return original array.
-	if index_begin == 0 && index_end == 0 {
+	if idx_begin == 0 && idx_end == 0 {
 		return arr
 	}
 	// Return array without needle value.
-	return append(arr[:index_begin], arr[index_end:]...)
+	return append(arr[:idx_begin], arr[idx_end:]...)
 }
