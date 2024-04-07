@@ -8,15 +8,16 @@ import (
 	"vtm/stdin"
 )
 
-var attributes_names, attribute_dots []string
+var attribute_list, skill_list []string
+var attribute_dots []string
 var clans []string
 var genders []string
 var generations []string
 var predator_types []string
-var skills, skills_balanced, skills_jack, skills_specialist []string
+var skill_dots_bal, skill_dots_jot, skill_dots_spc []string
 
 func init() {
-	attributes_names = []string{
+	attribute_list = []string{
 		"Charisma",
 		"Composure",
 		"Dexterity",
@@ -55,7 +56,7 @@ func init() {
 		"Scene Queen",
 		"Siren",
 	}
-	skills = []string{
+	skill_list = []string{
 		"Academics",
 		"Animal Ken",
 		"Athletics",
@@ -84,12 +85,13 @@ func init() {
 		"Survival",
 		"Technology",
 	}
+
 	// 19 skills
-	skills_jack = []string{"3", "2", "2", "2", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"}
+	skill_dots_jot = []string{"3", "2", "2", "2", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"}
 	// 15 skills
-	skills_balanced = []string{"3", "3", "3", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1"}
+	skill_dots_bal = []string{"3", "3", "3", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1"}
 	// 10 skills
-	skills_specialist = []string{"4", "3", "3", "3", "2", "2", "2", "1", "1", "1"}
+	skill_dots_spc = []string{"4", "3", "3", "3", "2", "2", "2", "1", "1", "1"}
 }
 
 func main() {
@@ -101,8 +103,46 @@ func main() {
 	ambition := stdin.Prompt("What is your ambition?", []string{})
 	desire := stdin.Prompt("What is your desire?", []string{})
 	predator_type := stdin.Prompt("What is your predator type?", predator_types)
-	b := actor.Background{
+
+	attributes_map := make(map[string]int)
+	for _, attribute := range attribute_list {
+		value := stdin.Prompt(fmt.Sprintf("Apply how many dots to your %s attribute?", attribute), attribute_dots)
+		value_to_int, _ := strconv.Atoi(value)
+		attribute_dots = Delete(attribute_dots, value)
+		attributes_map[attribute] = value_to_int
+	}
+
+	distro := stdin.Prompt("Choose your skill distribution", []string{"Balanced", "Jack of All Trades", "Specialist"})
+	var skill_dots []string
+	if distro == "Balanced" {
+		skill_dots = skill_dots_bal
+	}
+	if distro == "Jack of All Trades" {
+		skill_dots = skill_dots_jot
+	}
+	if distro == "Specialist" {
+		skill_dots = skill_dots_spc
+	}
+	fmt.Printf("You chose the '%s' skill distribution method.\n", distro)
+
+	skills_map := make(map[string]int)
+	for _, skill := range skill_list {
+		skills_map[skill] = 0
+	}
+
+	num_of_skills := len(skill_dots)
+	for idx := range num_of_skills {
+		dot := skill_dots[idx]
+		attribute_dots = Delete(skill_dots, dot)
+		skill := stdin.Prompt(fmt.Sprintf("Assign %s dots to which skill?\n", dot), skill_list)
+		skill_list = Delete(skill_list, skill)
+		dot_to_int, _ := strconv.Atoi(dot)
+		skills_map[skill] = dot_to_int
+	}
+
+	v := actor.Vampire{
 		Ambition:     ambition,
+		Attributes:   attributes_map,
 		Clan:         clan,
 		Desire:       desire,
 		Gender:       gender,
@@ -110,43 +150,17 @@ func main() {
 		Name:         name,
 		PredatorType: predator_type,
 		Sire:         sire,
+		Skills:       skills_map,
 	}
 
-	attributes := make(map[string]int)
-	for _, attribute := range attributes_names {
-		value := stdin.Prompt(fmt.Sprintf("Apply how many dots to your %s attribute?", attribute), attribute_dots)
-		value_to_int, _ := strconv.Atoi(value)
-		attribute_dots = Delete(attribute_dots, value)
-		attributes[attribute] = value_to_int
-	}
-
-	a := actor.Attributes{
-		Charisma:     attributes["Charisma"],
-		Composure:    attributes["Composure"],
-		Dexterity:    attributes["Dexterity"],
-		Intelligence: attributes["Intelligence"],
-		Manipulation: attributes["Manipulation"],
-		Resolve:      attributes["Resolve"],
-		Stamina:      attributes["Stamina"],
-		Strength:     attributes["Strength"],
-		Wits:         attributes["Wits"],
-	}
-
-	generation, title := b.GetMyGeneration()
-	fmt.Printf("You are %s, a %s %s of the %s (%s) generation.\n", b.GetMyName(), b.GetMyGender(), b.GetMyClan(), generation, title)
-	fmt.Printf("Your sire was %s.\n", b.GetMySire())
-	fmt.Printf("Your ambition is: %s.\n", b.GetMyAmbition())
-	fmt.Printf("Your desire is: %s.\n", b.GetMyDesire())
-	fmt.Printf("Your predator type is %s.\n", b.GetMyPredatorType())
-	fmt.Printf("Charisma - %d\n", a.GetMyCharisma())
-	fmt.Printf("Composure - %d\n", a.GetMyComposure())
-	fmt.Printf("Dexterity - %d\n", a.GetMyDexterity())
-	fmt.Printf("Intelligence - %d\n", a.GetMyIntelligence())
-	fmt.Printf("Manipulation - %d\n", a.GetMyManipulation())
-	fmt.Printf("Resolve - %d\n", a.GetMyResolve())
-	fmt.Printf("Stamina - %d\n", a.GetMyStamina())
-	fmt.Printf("Strength - %d\n", a.GetMyStrength())
-	fmt.Printf("Wits - %d\n", a.GetMyWits())
+	generation, title := v.GetMyGeneration()
+	fmt.Printf("You are %s, a %s %s of the %s (%s) generation.\n", v.GetMyName(), v.GetMyGender(), v.GetMyClan(), generation, title)
+	fmt.Printf("Your sire was %s.\n", v.GetMySire())
+	fmt.Printf("Your ambition is: %s.\n", v.GetMyAmbition())
+	fmt.Printf("Your desire is: %s.\n", v.GetMyDesire())
+	fmt.Printf("Your predator type is %s.\n", v.GetMyPredatorType())
+	fmt.Println(v.GetMyAttributes())
+	fmt.Println(v.GetMySkills())
 }
 
 func Delete(arr []string, needle string) []string {
