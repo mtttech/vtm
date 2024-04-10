@@ -87,11 +87,58 @@ func init() {
 	}
 
 	// 19 skills
-	skill_dots_jot = []string{"3", "2", "2", "2", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"}
+	skill_dots_jot = []string{
+		"3",
+		"2",
+		"2",
+		"2",
+		"2",
+		"2",
+		"2",
+		"2",
+		"2",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+	}
 	// 15 skills
-	skill_dots_bal = []string{"3", "3", "3", "2", "2", "2", "2", "2", "1", "1", "1", "1", "1", "1", "1"}
+	skill_dots_bal = []string{
+		"3",
+		"3",
+		"3",
+		"2",
+		"2",
+		"2",
+		"2",
+		"2",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+		"1",
+	}
 	// 10 skills
-	skill_dots_spc = []string{"4", "3", "3", "3", "2", "2", "2", "1", "1", "1"}
+	skill_dots_spc = []string{
+		"4",
+		"3",
+		"3",
+		"3",
+		"2",
+		"2",
+		"2",
+		"1",
+		"1",
+		"1",
+	}
 }
 
 func main() {
@@ -106,24 +153,24 @@ func main() {
 
 	attributes_map := make(map[string]int)
 	for _, attribute := range attribute_list {
-		value := stdin.Prompt(fmt.Sprintf("Apply how many dots to your %s attribute?", attribute), attribute_dots)
-		value_to_int, _ := strconv.Atoi(value)
-		attribute_dots = Delete(attribute_dots, value)
-		attributes_map[attribute] = value_to_int
+		dots_to_str := stdin.Prompt(fmt.Sprintf("Apply how many dots to your %s attribute?", attribute), attribute_dots)
+		dots_to_int, _ := strconv.Atoi(dots_to_str)
+		attribute_dots = Delete(attribute_dots, dots_to_str)
+		attributes_map[attribute] = dots_to_int
 	}
 
-	distro := stdin.Prompt("Choose your skill distribution", []string{"Balanced", "Jack of All Trades", "Specialist"})
+	distribution_method := stdin.Prompt("Choose your skill distribution method.", []string{"Balanced", "Jack of All Trades", "Specialist"})
 	var skill_dots []string
-	if distro == "Balanced" {
+	if distribution_method == "Balanced" {
 		skill_dots = skill_dots_bal
 	}
-	if distro == "Jack of All Trades" {
+	if distribution_method == "Jack of All Trades" {
 		skill_dots = skill_dots_jot
 	}
-	if distro == "Specialist" {
+	if distribution_method == "Specialist" {
 		skill_dots = skill_dots_spc
 	}
-	fmt.Printf("You chose the '%s' skill distribution method.\n", distro)
+	fmt.Printf("You chose the '%s' skill distribution method.\n", distribution_method)
 
 	skills_map := make(map[string]int)
 	for _, skill := range skill_list {
